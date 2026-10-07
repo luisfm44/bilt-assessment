@@ -16,8 +16,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RewardsEngineRegressionTest {
@@ -56,6 +58,32 @@ class RewardsEngineRegressionTest {
         assertEquals(ProcessingOutcome.AWARDED, nextMonth.getOutcome());
         assertEquals(100_000, member.getPointsForMonth(YearMonth.of(2026, 3)));
         assertEquals(2000, member.getPointsForMonth(YearMonth.of(2026, 4)));
+    }
+
+    @Test
+    void aFailedCalculationCanBeRetriedWithoutLosingOrDuplicatingPoints() {
+        AtomicBoolean failOnce = new AtomicBoolean(true);
+        PointsCalculator calculator = new PointsCalculator() {
+            @Override
+            public long calculateBasePoints(PaymentEvent event) {
+                if (failOnce.getAndSet(false)) {
+                    throw new IllegalStateException("Temporary calculation failure");
+                }
+                return super.calculateBasePoints(event);
+            }
+        };
+        RewardsEngine retryEngine = new RewardsEngine(calculator, new ProcessedEventStore());
+        MemberAccount member = new MemberAccount("member-1", 0);
+        PaymentEvent payment = event("retry-after-failure", "1500", 3);
+
+        assertThrows(IllegalStateException.class, () -> retryEngine.processPayment(payment, member));
+        assertEquals(0, member.getPointsForMonth(YearMonth.of(2026, 3)));
+
+        PointsResult retry = retryEngine.processPayment(payment, member);
+        assertEquals(ProcessingOutcome.AWARDED, retry.getOutcome());
+        assertEquals(1500, retry.getPointsAwarded());
+        assertEquals(ProcessingOutcome.DUPLICATE, retryEngine.processPayment(payment, member).getOutcome());
+        assertEquals(1500, member.getPointsForMonth(YearMonth.of(2026, 3)));
     }
 
     @Test

@@ -93,7 +93,23 @@ and coordination between separate processes remain outside its scope.
 The dashboard maps `outcome` to success, neutral or warning copy and colors.
 A partial award that reaches the cap still displays success.
 
-Validation: `mvn test` passes 19 test executions (including the eight existing
+Validation: `mvn test` passes 20 test executions (including the eight existing
 concurrency repetitions); `npm run test:web` passes all 6 tests. Added coverage
 includes separate engines sharing a store, concurrent distinct events at the
-cap, capped-event retries, month rollover and rendered dashboard transitions.
+cap, capped-event retries, month rollover, retry after a failed calculation,
+and rendered dashboard transitions.
+
+## Validation evidence
+
+Run `mvn test` and `npm run test:web` from the repository root to reproduce the
+results. [Captured local test output](docs/evidence/test-results.txt) records
+both passing suites. The [Test workflow](https://github.com/luisfm44/bilt-assessment/actions/workflows/test.yml)
+also supports **Run workflow** for independent verification on Java 17 and Node 20.
+
+These screenshots use preview fixtures with the actual `renderDashboard`
+function. They demonstrate UI copy and visual tone; backend correctness is
+verified separately by the Java tests.
+
+| AWARDED: success | DUPLICATE: neutral | CAPPED: warning |
+| --- | --- | --- |
+| ![Awarded points](docs/evidence/awarded.jpg) | ![Duplicate event skipped](docs/evidence/duplicate.jpg) | ![Monthly cap reached](docs/evidence/capped.jpg) |

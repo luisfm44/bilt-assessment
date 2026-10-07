@@ -1,0 +1,31 @@
+Local validation: 2026-10-07T15:40:22-05:00
+
+Backend command: mvn test
+(Local run used an offline dependency cache; same tests and project configuration.)
+
+[INFO] Running com.rentrewards.challenge.service.RewardsEngineRegressionTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in com.rentrewards.challenge.service.RewardsEngineRegressionTest
+[INFO] Running com.rentrewards.challenge.service.RewardsEngineTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.rentrewards.challenge.service.RewardsEngineTest
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+Frontend command: npm run test:web
+
+> test:web
+> node --test web/dashboard.test.js
+
+✔ shows awarded points as a successful payment (1.761583ms)
+✔ shows a duplicate event as skipped rather than credited (0.496ms)
+✔ shows when the member has reached the monthly cap (0.072292ms)
+✔ a partial award reaching the cap still displays success (0.085833ms)
+✔ unknown outcomes cannot announce a successful award (0.179ms)
+✔ rendering successive outcomes updates the visible copy and color (0.206625ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 70.084041
