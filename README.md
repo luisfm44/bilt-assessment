@@ -76,3 +76,24 @@ solution is preferable to a large rewrite.
 Fork this public repository, commit your changes, and share the URL of your
 public fork. Please do not squash away the baseline history: evaluation is
 limited to your diff from the original repository.
+
+## Fix and validation
+
+`ProcessedEventStore` retains every processed event ID. `RewardsEngine` locks
+the shared store across duplicate checking, point calculation, monthly cap
+enforcement, crediting and recording the event. Separate engines using the
+same store therefore cannot credit an event twice or race past the monthly
+cap. Capped events are also remembered. The calculator and reward rules are
+unchanged.
+
+The store-wide lock deliberately serializes processing for this small,
+in-memory exercise. Workers must share the store; persistence across restarts
+and coordination between separate processes remain outside its scope.
+
+The dashboard maps `outcome` to success, neutral or warning copy and colors.
+A partial award that reaches the cap still displays success.
+
+Validation: `mvn test` passes 19 test executions (including the eight existing
+concurrency repetitions); `npm run test:web` passes all 6 tests. Added coverage
+includes separate engines sharing a store, concurrent distinct events at the
+cap, capped-event retries, month rollover and rendered dashboard transitions.

@@ -29,6 +29,14 @@ public class RewardsEngine {
     }
 
     public PointsResult processPayment(PaymentEvent event, MemberAccount member) {
+        // Workers sharing the store must check, award and record as one operation.
+        // This also keeps concurrent payments from exceeding the monthly cap.
+        synchronized (processedEventStore) {
+            return processPaymentWithStoreLocked(event, member);
+        }
+    }
+
+    private PointsResult processPaymentWithStoreLocked(PaymentEvent event, MemberAccount member) {
         if (processedEventStore.isDuplicate(event.getEventId())) {
             return new PointsResult(member.getMemberId(), 0, ProcessingOutcome.DUPLICATE);
         }
