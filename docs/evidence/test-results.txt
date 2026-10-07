@@ -29,3 +29,16 @@ Frontend command: npm run test:web
 ℹ skipped 0
 ℹ todo 0
 ℹ duration_ms 70.084041
+
+GitHub validation: https://github.com/luisfm44/bilt-assessment/actions/runs/37684382273
+Commit tested: de8d4490a63a2730d3aa07a80d389796087c86e7
+Environment: Ubuntu, Java 17, Node 20
+Conclusion: success
+
+test	Test backend	2026-10-07T20:45:26.5480378Z [INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.146 s -- in com.rentrewards.challenge.service.RewardsEngineTest
+test	Test backend	2026-10-07T20:45:26.5822742Z [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in com.rentrewards.challenge.service.RewardsEngineRegressionTest
+test	Test backend	2026-10-07T20:45:26.5964741Z [INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
+test	Test backend	2026-10-07T20:45:26.5991148Z [INFO] BUILD SUCCESS
+test	Test dashboard	2026-10-07T20:45:26.8571312Z # tests 6
+test	Test dashboard	2026-10-07T20:45:26.8572651Z # pass 6
+test	Test dashboard	2026-10-07T20:45:26.8573425Z # fail 0

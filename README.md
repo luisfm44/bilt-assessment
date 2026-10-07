@@ -106,6 +106,9 @@ results. [Captured local test output](docs/evidence/test-results.txt) records
 both passing suites. The [Test workflow](https://github.com/luisfm44/bilt-assessment/actions/workflows/test.yml)
 also supports **Run workflow** for independent verification on Java 17 and Node 20.
 
+[Verified GitHub run](https://github.com/luisfm44/bilt-assessment/actions/runs/37684382273)
+passed all 20 backend test executions and all 6 dashboard tests on Java 17 and Node 20.
+
 These screenshots use preview fixtures with the actual `renderDashboard`
 function. They demonstrate UI copy and visual tone; backend correctness is
 verified separately by the Java tests.
@@ -113,3 +116,5 @@ verified separately by the Java tests.
 | AWARDED: success | DUPLICATE: neutral | CAPPED: warning |
 | --- | --- | --- |
 | ![Awarded points](docs/evidence/awarded.jpg) | ![Duplicate event skipped](docs/evidence/duplicate.jpg) | ![Monthly cap reached](docs/evidence/capped.jpg) |
+
+![Both suites passed in GitHub Actions](docs/evidence/github-tests.jpg)
